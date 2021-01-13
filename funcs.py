@@ -6,9 +6,11 @@ import sys
 import os
 import subprocess
 
-def change_const(file_name, const_name, const_value):
+from typing import List, Any, NoReturn, Iterable, Union
+
+def change_const(file_name: str, const_name: str, const_value: Any) -> NoReturn:
     with open(file_name, 'r') as f:
-        lines = f.readlines()
+        lines: List[str] = f.readlines()
 
     lines = [
         re.sub('#define\s{}\s\d+'.format(const_name), 
@@ -20,7 +22,7 @@ def change_const(file_name, const_name, const_value):
     with open(file_name, 'w') as f:
         f.writelines(lines)
 
-def select_func(how):
+def select_func(how: str) -> NoReturn:
     if how == 'selection':
         cfile = 'algo5-1.c'
     elif how == 'insertion':
@@ -62,7 +64,7 @@ def select_func(how):
         f.writelines(lines)
 
 
-def measure_time(how='selection', data_counts=list(range(1000, 11000, 1000)), output_file=None, ext='csv', ):
+def measure_time(how: str='selection', data_counts: Iterable=list(range(1000, 11000, 1000)), output_file: Union[str]=None, ext: str='csv') -> NoReturn:
     if output_file is None:
         output_file = '{}sort'.format(how)
     if how == 'selection':
@@ -90,7 +92,7 @@ def measure_time(how='selection', data_counts=list(range(1000, 11000, 1000)), ou
         f.write(output)
     f.close()
 
-def parse_result(strings):
+def parse_result(strings: str) -> str:
     nums = re.sub('\D+', ' ', strings)
     nums = [
         num for num in nums.split(' ')
@@ -98,7 +100,7 @@ def parse_result(strings):
     rep = int(nums[1])
     data = int(nums[2])
     time = float('.'.join(nums[3:5]))
-    result = '{},{}\n'.format(data, time)
+    result: str = '{},{}\n'.format(data, time)
 
     return result
 
