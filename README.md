@@ -80,9 +80,6 @@ _mergesort(...)    // <--
 ### Exp A-2
 ![Results of A-2](./output/A-2/graph.png)
 
-### Exp A-3
-![Results of A-3](./output/A-3/graph.png)
-
 ### Exp B-1
 ![Results of B-1](./output/B-1/graph.png)
 
