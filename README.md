@@ -1,4 +1,4 @@
-#SORT ALGORITHM
+# SORT ALGORITHM
 
 This repository includes:
 - selection sort
@@ -53,6 +53,59 @@ conda activate algo-exp
 ```
 
 ## Usage
-raise NotImplimentedError(
-    'Developing...;)'
-)
+
+```bash
+python experiments.py
+```
+
+## Caution!
+
+When you use *MacOS X*, you will encounter conflict errors.
+
+You should change some namespaces such as *heapsort* and *mergesort*.
+
+```c
+// heapsort(...)
+_heapsort(...)    // <--
+
+// mergesort(...)
+_mergesort(...)    // <--
+```
+
+## Results
+
+### Exp A-1
+![Results of A-1](./output/A-1/graph.png)
+
+### Exp A-2
+![Results of A-2](./output/A-2/graph.png)
+
+### Exp A-3
+![Results of A-3](./output/A-3/graph.png)
+
+### Exp B-1
+![Results of B-1](./output/B-1/graph.png)
+
+### Exp B-2
+![Results of B-2](./output/B-2/graph.png)
+
+### Exp B-3
+![Results of B-3](./output/B-3/graph.png)
+
+### Exp B-4
+![Results of B-4](./output/B-4/graph.png)
+
+### Exp C-1
+![Results of C-1](./output/C-1/graph.png)
+
+### Exp C-2
+![Results of C-2](./output/C-2/graph.png)
+
+### Exp C-3
+![Results of C-3](./output/C-3/graph.png)
+
+### Exp C-4
+![Results of C-4](./output/C-4/graph.png)
+
+### Exp C-5
+![Results of C-5](./output/C-5/graph.png)
