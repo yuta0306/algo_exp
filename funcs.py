@@ -120,7 +120,7 @@ def select_func(how: str) -> NoReturn:
         f.writelines(lines)
 
 
-def measure_time(how: str='selection', data_counts: Iterable=list(range(1000, 16000, 1000)),
+def measure_time(how: str='selection', data_counts: Iterable=list(range(1000, 21000, 500)),
                 ascending: Union[bool]=None, q_type: str='rand', output_file: Union[str]=None,
                 ext: str='csv', top: Union[str]=None) -> str:
     if output_file is None:
