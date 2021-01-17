@@ -8,7 +8,7 @@
 double delete_maximum(double T[], int *size);
 void push_heap(double T[], double x, int *size);
 
-void heapsort(
+void _heapsort(
     int     n,      // データの個数
     double  D[]     // データ D[0], ..., D[n-1]
 )

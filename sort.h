@@ -7,10 +7,10 @@
 // ****
 
 // データの個数
-#define N 10000
+#define N 15000
 
 // 正確な計算時間を得るための反復回数
-#define REP 100
+#define REP 30
 
 // ****
 // 関数
@@ -53,7 +53,7 @@ void insertionsort(
 );
 
 // アルゴリズム 5.5  ヒープソート
-void heapsort(
+void _heapsort(
     int,
     double  []
 );
@@ -67,7 +67,7 @@ void quicksort(
 );
 
 // アルゴリズム 7.3  マージソート
-void mergesort(
+void _mergesort(
     double  [],
     int,
     int,

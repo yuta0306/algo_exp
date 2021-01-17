@@ -7,7 +7,7 @@
 // ********
 void merge(double D[], int left, int mid, int right, double M[]);
 
-void mergesort(
+void _mergesort(
     double  D[],    // データ D[left], ..., D[right]
     int     left,   // ソートの対象とする配列 D の左端の位置
     int     right,   // ソートの対象とする配列 D の右端の位置
@@ -15,8 +15,8 @@ void mergesort(
 )
 {
     int mid = (left + right) / 2;
-    if (left < mid) mergesort(D, left, mid, M);
-    if (mid+1 < right) mergesort(D, mid+1, right, M);
+    if (left < mid) _mergesort(D, left, mid, M);
+    if (mid+1 < right) _mergesort(D, mid+1, right, M);
     merge(D, left, mid, right, M);
 }
 

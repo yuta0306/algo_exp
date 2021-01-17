@@ -8,6 +8,20 @@ import subprocess
 
 from typing import List, Any, NoReturn, Iterable, Union
 
+__all__ = [
+    'measure_time',
+    'directory_checker'
+]
+
+
+def directory_checker(dirnames: List[str]) -> NoReturn:
+    path = '.'
+    for dir_name in dirnames:
+        path += f'/{dir_name}'
+        if not os.path.isdir(path):
+            os.makedirs(path, exist_ok=True)
+
+
 def change_const(file_name: str, const_name: str, const_value: Any) -> NoReturn:
     with open(file_name, 'r') as f:
         lines: List[str] = f.readlines()
@@ -22,6 +36,43 @@ def change_const(file_name: str, const_name: str, const_value: Any) -> NoReturn:
     with open(file_name, 'w') as f:
         f.writelines(lines)
 
+
+def input_type(file_name: str, ascending: Union[bool]=None) -> NoReturn:
+    if ascending is None:
+        funcname = 'data_random'
+    elif ascending:
+        funcname = 'data_ascending'
+    else:
+        funcname = 'data_descending'
+
+    with open(file_name, 'r') as f:
+        lines: List[str] = f.readlines()
+
+    lines = [
+        re.sub('data_', '// data_', line) if re.search('\s\s+data_', line) else line
+            for line in lines
+    ]
+    lines = [
+        re.sub(f'// {funcname}', funcname, line) for line in lines
+    ]
+
+    with open(file_name, 'w') as f:
+        f.writelines(lines)
+
+
+def quick_type(file_name: str, type_: str='rand') -> NoReturn:
+    with open(file_name, 'r') as f:
+        lines: List[str] = f.readlines()
+
+    lines = [
+        re.sub('".+"', f'"{type_}"', line) if re.search('quicksort', line) else line
+            for line in lines
+    ]
+
+    with open(file_name, 'w') as f:
+        f.writelines(lines)
+
+
 def select_func(how: str) -> NoReturn:
     if how == 'selection':
         cfile = 'algo5-1.c'
@@ -35,6 +86,11 @@ def select_func(how: str) -> NoReturn:
         cfile = 'algo7-3.c'
     else:
         raise ValueError()
+
+    if how == 'heap':
+        how = '_heap'
+    elif how == 'merge':
+        how = '_mearge'
 
     with open('sort-main.c', 'r') as f:
         lines = f.readlines()
@@ -64,9 +120,17 @@ def select_func(how: str) -> NoReturn:
         f.writelines(lines)
 
 
-def measure_time(how: str='selection', data_counts: Iterable=list(range(1000, 11000, 1000)), output_file: Union[str]=None, ext: str='csv') -> NoReturn:
+def measure_time(how: str='selection', data_counts: Iterable=list(range(1000, 16000, 1000)),
+                ascending: Union[bool]=None, q_type: str='rand', output_file: Union[str]=None,
+                ext: str='csv', top: Union[str]=None) -> str:
     if output_file is None:
         output_file = '{}sort'.format(how)
+    if top is None:
+        top = './'
+    else:
+        if not top[-1] == '/':
+            top += '/'
+
     if how == 'selection':
         cfile = 'algo5-1.c'
     elif how == 'insertion':
@@ -75,13 +139,17 @@ def measure_time(how: str='selection', data_counts: Iterable=list(range(1000, 11
         cfile = 'algo5-5.c'
     elif how == 'quick':
         cfile = 'algo6-1.c'
+        quick_type('sort-main.c', q_type)
     elif how == 'merge':
         cfile = 'algo7-3.c'
     else:
         raise ValueError()
+
+    input_type('sort-main.c', ascending=ascending)
     
-    f = open('{}.{}'.format(output_file, ext), 'w+')
+    f = open('{}{}.{}'.format(top, output_file, ext), 'w+')
     f.write('data,time\n')
+
     for i in tqdm(data_counts):
         change_const('sort.h', 'N', i)
         select_func(how=how)
@@ -91,6 +159,9 @@ def measure_time(how: str='selection', data_counts: Iterable=list(range(1000, 11
         output = parse_result(output)
         f.write(output)
     f.close()
+
+    return '{}{}.{}'.format(top, output_file, ext)
+
 
 def parse_result(strings: str) -> str:
     nums = re.sub('\D+', ' ', strings)
@@ -103,7 +174,3 @@ def parse_result(strings: str) -> str:
     result: str = '{},{}\n'.format(data, time)
 
     return result
-
-if __name__ == "__main__":
-    how = sys.argv[1] if len(sys.argv) > 1 else 'selection'
-    measure_time(how=how)
