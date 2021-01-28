@@ -18,8 +18,8 @@ void quicksort(
     int pivot_index;
     if (left < right) {
         pivot_index = partition(D, left, right, base);
-        quicksort(D, left, pivot_index-1, "left");
-        quicksort(D, pivot_index+1, right, "left");
+        quicksort(D, left, pivot_index-1, base);
+        quicksort(D, pivot_index+1, right, base);
     }
 }
 
@@ -49,7 +49,8 @@ int partition(double D[], int left, int right, char base[])
 
         k = mid;
     } else if (strcmp(base, "rand") == 0) {
-        k = (double)rand() / (double)RAND_MAX * N;
+        k = (double)rand() / (double)RAND_MAX * (right - left + 1);
+        k = left + k;
     } else {
         k = left;
     }
